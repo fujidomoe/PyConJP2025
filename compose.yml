@@ -1,0 +1,58 @@
+#x-common-env: &common-env
+#  APP_ENV: "development"
+#  DB_USER: "root"
+#  DB_PASS: "password"
+#  DB_HOST: "db"
+#  DB_NAME: "pyconjp2025"
+#  DB_PORT: "3306"
+
+services:
+#  db:
+#    build:
+#      context: .
+#      dockerfile:
+#        db.Dockerfile
+#    platform: linux/amd64
+#    environment:
+#      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+#      MYSQL_ROOT_HOST: "%"
+#      MYSQL_ROOT_PASSWORD: "password"
+#      MYSQL_USER: "pyconjp2025"
+#      MYSQL_PASSWORD: "password"
+#      MYSQL_DATABASE: "pyconjp2025"
+#      TZ: "Asia/Tokyo"
+#    ports:
+#      - 3306:3306
+#    tty: true
+#    volumes:
+#      - .:/opt/pyconjp2025:cached
+#      - ./docker_env/mysql/data:/var/lib/mysql:cached
+#  batch:
+#    build:
+#      context: .
+#      dockerfile:
+#        batch.Dockerfile
+#    volumes:
+#      - .:/opt/pyconjp2025:cached
+#    tty: true
+#    environment:
+#      <<: *common-env
+#    depends_on:
+#      - db
+  api:
+    build:
+      context: .
+      dockerfile:
+        api.Dockerfile
+      args:
+        requirements_suffix: -dev.lock
+        uwsgi_file: ./docker_env/uwsgi/uwsgi_dev.ini
+    volumes:
+      - .:/opt/pyconjp2025:cached
+    tty: true
+    ports:
+      - 8080:80
+#    environment:
+#      <<: *common-env
+#    depends_on:
+#      - db
