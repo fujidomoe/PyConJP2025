@@ -1,28 +1,25 @@
 import os
-from flask import Flask, current_app, request, Blueprint, Flask, jsonify, make_response
-
+from flask import Flask
+from src.config import configuration
+from src.di import get_injector
+from src.presentation.api.route import json_api_routing
 
 app = Flask(__name__)
 
 
 def init_app() -> Flask:
+    env = os.environ.get("APP_ENV")
+    app.config.from_object(configuration[env])
     app.config["JSON_AS_ASCII"] = False
+    injector = get_injector()
     app.app_context().push()
-    app.register_blueprint(healthcheck)
+    json_api_routing(app, injector)
     return app
-
-healthcheck = Blueprint("healthcheck", __name__)
-@healthcheck.route("/healthcheck", methods=["GET"])
-def health():
-    result = {"healthcheck": "ok"}
-    return make_response(jsonify(result), 200, {"Content-Type": "application/json"})
 
 
 @app.after_request
 def add_header(response):
-    http_origin = request.environ.get("HTTP_ORIGIN")
     response.headers["Access-Control-Allow-Origin"] = ["http://localhost:8090"]
-
     response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
     response.headers["Access-Control-Allow-Methods"] = "OPTIONS, GET"
     response.headers["Allow"] = "OPTIONS, GET"
