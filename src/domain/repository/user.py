@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
+
 from src.domain.model.user import User
+
 
 class IUserRepo(ABC):
     @abstractmethod

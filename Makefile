@@ -7,6 +7,9 @@ docker/re-setup:
 	$(DOCKER_COMPOSE) build --no-cache
 	$(DOCKER_COMPOSE) up -d
 
+docker/batch/ssh:
+	$(DOCKER_COMPOSE) exec batch /bin/bash
+
 gen/lock:
 	uv pip compile pyproject.toml -o requirements.lock
 	uv pip compile pyproject.toml --group dev -o requirements-dev.lock

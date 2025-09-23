@@ -27,18 +27,20 @@ services:
     volumes:
       - .:/opt/pyconjp2025:cached
       - ./docker_env/mysql/data:/var/lib/mysql:cached
-#  batch:
-#    build:
-#      context: .
-#      dockerfile:
-#        batch.Dockerfile
-#    volumes:
-#      - .:/opt/pyconjp2025:cached
-#    tty: true
-#    environment:
-#      <<: *common-env
-#    depends_on:
-#      - db
+  batch:
+    build:
+      context: .
+      dockerfile:
+        batch.Dockerfile
+      args:
+        requirements_suffix: -dev.lock
+    volumes:
+      - .:/opt/pyconjp2025:cached
+    tty: true
+    environment:
+      <<: *common-env
+    depends_on:
+      - db
   api:
     build:
       context: .
@@ -54,5 +56,5 @@ services:
       - 8080:80
     environment:
       <<: *common-env
-#    depends_on:
-#      - db
+    depends_on:
+      - db

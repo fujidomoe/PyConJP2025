@@ -1,5 +1,7 @@
 import os
+
 from flask import Flask
+
 from src.config import configuration
 from src.di import get_injector
 from src.presentation.api.route import json_api_routing
@@ -9,6 +11,8 @@ app = Flask(__name__)
 
 def init_app() -> Flask:
     env = os.environ.get("APP_ENV")
+    if env is None:
+        raise ValueError("APP_ENV is not set")
     app.config.from_object(configuration[env])
     app.config["JSON_AS_ASCII"] = False
     injector = get_injector()

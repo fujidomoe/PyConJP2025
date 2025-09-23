@@ -32,3 +32,5 @@ tags
 *.pyc
 __pycache__/
 .mypy_cache/
+
+docker_env/mysql/data

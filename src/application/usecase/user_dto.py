@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+
 from src.domain.model.user import User
 
 
@@ -8,10 +9,9 @@ class UserMeOutPutDTO(BaseModel):
     email: str
 
     @classmethod
-    def from_entity(cls, user: User) -> 'UserMeOutPutDTO':
+    def from_entity(cls, user: User) -> "UserMeOutPutDTO":
         return cls(
             user_id=user.user_id,
             name=user.name,
             email=user.email,
         )
-

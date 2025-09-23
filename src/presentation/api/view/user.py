@@ -1,7 +1,9 @@
 from flask import jsonify, make_response
+from flask.views import MethodView
+
 from src.application.usecase.user import IUserMeUseCase
 from src.presentation.api.schema.user import UserMeResponse
-from flask.views import MethodView
+
 
 class UserMe(MethodView):
     def get(self, interactor: IUserMeUseCase):

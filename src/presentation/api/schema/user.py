@@ -7,7 +7,7 @@ class UserMeResponse(BaseModel):
     email: str
 
     @classmethod
-    def from_dto(cls, dto) -> 'UserMeResponse':
+    def from_dto(cls, dto) -> "UserMeResponse":
         return cls(
             user_id=dto.user_id,
             name=dto.name,

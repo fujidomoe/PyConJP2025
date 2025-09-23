@@ -1,6 +1,7 @@
 from flask import Blueprint, Flask, jsonify, make_response
-from src.presentation.api.view.user import UserMe
+
 from src.application.usecase.user import UserMeInteractor
+from src.presentation.api.view.user import UserMe
 
 
 def json_api_routing(app: Flask, injector):
@@ -15,6 +16,8 @@ def json_api_routing(app: Flask, injector):
 
 
 healthcheck = Blueprint("healthcheck", __name__)
+
+
 @healthcheck.route("/healthcheck", methods=["GET"])
 def health():
     result = {"healthcheck": "ok"}

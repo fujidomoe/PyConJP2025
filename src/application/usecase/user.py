@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
-from src.application.usecase.user_dto import UserMeOutPutDTO
-from injector import inject
-from  src.domain.repository.user import IUserRepo
 
+from injector import inject
+
+from src.application.usecase.user_dto import UserMeOutPutDTO
+from src.domain.repository.user import IUserRepo
 
 
 class IUserMeUseCase(ABC):
@@ -21,5 +22,3 @@ class UserMeInteractor(IUserMeUseCase):
         if user is None:
             return None
         return UserMeOutPutDTO.from_entity(user)
-
-

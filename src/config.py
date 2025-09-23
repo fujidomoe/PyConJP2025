@@ -1,5 +1,4 @@
 import logging
-import os
 from logging import DEBUG, INFO, StreamHandler
 
 
@@ -15,11 +14,14 @@ class ProductionConfig(Config):
 class StagingConfig(Config):
     pass
 
+
 class DevelopmentConfig(Config):
     LOG_LEVEL = DEBUG
 
+
 class TestingConfig(Config):
     LOG_LEVEL = DEBUG
+
 
 configuration = {
     "production": ProductionConfig(),
