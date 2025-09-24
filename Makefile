@@ -19,3 +19,7 @@ curl/healthcheck:
 
 curl/users/me:
 	curl http://localhost:8080/v1/users/me
+
+
+docker/test:
+	$(DOCKER_COMPOSE) exec batch /usr/bin/make test -C src

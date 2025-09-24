@@ -1,7 +1,7 @@
 FROM python:3.12.3
 
 ARG requirements_suffix=".lock"
-ARG TOPA_ENV
+ARG APP_ENV
 
 ENV LC_ALL C.UTF-8
 ENV LANG C.UTF-8

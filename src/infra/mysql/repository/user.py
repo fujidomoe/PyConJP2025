@@ -8,5 +8,5 @@ class UserRepo(IUserRepo):
     def __init__(self, session: Session):
         self.session = session
 
-    def get_user_by_id(self, user_id: int) -> User | None:
-        return User(user_id=1, name="John Doe", email="john@sample.com")
+    def find_user_by_auth0_id(self, auth0_id: str) -> User | None:
+        return User(user_id=1, auth0_id="abc12345", name="fujidomoe", email="fujidomoe@pyconJp.com")

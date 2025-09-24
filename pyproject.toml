@@ -12,6 +12,9 @@ dependencies = [
     "sqlalchemy==2.0.43",
     "pymysql==1.1.2",
     "types-PyMySQL==1.1.0.20250916",
+    "types-six==1.16.21.20241009",
+    "six==1.17.0",
+    "python-jose==3.5.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.13.3"
