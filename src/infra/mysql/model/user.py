@@ -5,7 +5,7 @@ from sqlalchemy.schema import UniqueConstraint
 from src.infra.mysql.db import Base
 
 
-class UserModel(Base):
+class UserDTO(Base):
     __tablename__ = "user"
     __table_args__ = (UniqueConstraint("email"),)
 

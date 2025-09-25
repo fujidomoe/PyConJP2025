@@ -7,7 +7,7 @@ from flask import Flask as _Flask
 from src.config import configuration
 from src.di import get_injector
 from src.infra.mysql.db import Base, engine, session
-from src.infra.mysql.model.user import UserModel
+from src.infra.mysql.model.user import UserDTO
 from src.presentation.api.route import json_api_routing
 
 
@@ -37,7 +37,6 @@ def run_sql(sql):
 def create_app():
     app = Flask(__name__)
     env = "testing"
-    # app.config["ENV"] = env
     app.config.from_object(configuration[env])
     app.app_context().push()
     injector = get_injector()
@@ -48,7 +47,6 @@ def create_app():
 @pytest.fixture(scope="session", autouse=True)
 def scope_session():
     create_app()
-    # app.testing = True
     db_name = "pyconjp2025_test"
     os.environ["DB_NAME"] = db_name
     setup_db(db_name=db_name)
@@ -76,8 +74,8 @@ def scope_function():
     session.remove()
 
 
-def fixture_user(id: int, auth0_id: str, name: str, email: str) -> UserModel:
-    x = UserModel(id=id, auth0_id=auth0_id, name=name, email=email)
+def fixture_user(id: int, auth0_id: str, name: str, email: str) -> UserDTO:
+    x = UserDTO(id=id, auth0_id=auth0_id, name=name, email=email)
     session.add(x)
     session.flush()
     return x

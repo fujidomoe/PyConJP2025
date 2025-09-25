@@ -3,7 +3,7 @@ from sqlalchemy.orm.session import Session
 
 from src.domain.model.user import User
 from src.domain.repository.user import IUserRepo
-from src.infra.mysql.model.user import UserModel
+from src.infra.mysql.model.user import UserDTO
 
 
 class UserRepo(IUserRepo):
@@ -12,7 +12,7 @@ class UserRepo(IUserRepo):
 
     def find_user_by_auth0_id(self, auth0_id: str) -> User | None:
         try:
-            x = self.session.query(UserModel).filter(UserModel.auth0_id == auth0_id).one()
+            x = self.session.query(UserDTO).filter(UserDTO.auth0_id == auth0_id).one()
         except NoResultFound:
             return None
         return User(user_id=x.id, auth0_id=x.auth0_id, name=x.name, email=x.email)
