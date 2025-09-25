@@ -23,3 +23,6 @@ curl/users/me:
 
 docker/test:
 	$(DOCKER_COMPOSE) exec batch /usr/bin/make test -C src
+
+docker/db/cli:
+	$(DOCKER_COMPOSE) exec db mysql -u root -ppassword pyconjp2025

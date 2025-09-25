@@ -1,11 +1,8 @@
-test: clear_mypy_cache
-	ruff format .
-	ruff check . --fix
-	mypy --python-version 3.13 .
-	pytest
+test:
+	make test -f testing.mk
 
-clear_mypy_cache:
-	-rm -fr .mypy_cache
+test_ci:
+	make test_ci -f testing.mk
 
 # for docker default cmd
 bash:
