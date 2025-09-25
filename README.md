@@ -1,1 +1,1 @@
-# PyConJP2025
+CLAUDE.md
