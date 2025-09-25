@@ -6,8 +6,12 @@ asttokens==3.0.0
     # via stack-data
 blinker==1.9.0
     # via flask
+cffi==2.0.0
+    # via cryptography
 click==8.3.0
     # via flask
+cryptography==44.0.1
+    # via pyconjp2025 (pyproject.toml)
 decorator==5.2.1
     # via ipython
 ecdsa==0.19.1
@@ -61,6 +65,8 @@ pyasn1==0.6.1
     # via
     #   python-jose
     #   rsa
+pycparser==2.23
+    # via cffi
 pydantic==2.11.9
     # via pyconjp2025 (pyproject.toml)
 pydantic-core==2.33.2
