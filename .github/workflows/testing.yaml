@@ -1,0 +1,56 @@
+name: testing
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      TZ: Asia/Tokyo
+      PYTHONPATH: ~/PyConJP2025
+      DB_USER: user
+      DB_PASS: password
+      DB_HOST: 127.0.0.1
+      DB_NAME: pyconjp2025_test
+    steps:
+      - uses: actions/checkout@v5
+      - name: Start MySQL Container
+        run: |
+          docker rm -f mysql 2>/dev/null || true
+          docker run --name mysql \
+            -v ${{ github.workspace }}/docker_env/mysql/my.cnf:/etc/mysql/conf.d/my.cnf \
+            -e MYSQL_USER=${{ env.DB_USER }} \
+            -e MYSQL_PASSWORD=${{ env.DB_PASS }} \
+            -e MYSQL_ROOT_PASSWORD=${{ env.DB_PASS }} \
+            -e MYSQL_DATABASE=${{ env.DB_NAME }} \
+            -e TZ=Asia/Tokyo \
+            -p 3306:3306 \
+            --health-cmd "mysqladmin ping" \
+            --health-interval 10s \
+            --health-timeout 5s \
+            --health-retries 10 \
+            -d mysql:8.0.39
+      - name: Check MySQL Version & Configurations
+        run: |
+          sleep 30 # Wait for MySQL to be ready
+          mysql -uroot -h${{ env.DB_HOST }} -p${{ env.DB_PASS }} -e 'SELECT version()'
+          echo "Checking character_set_server"
+          mysql -uroot -h${{ env.DB_HOST }} -p${{ env.DB_PASS }} -e "SHOW VARIABLES LIKE 'character_set_server';"
+          echo "Checking collation_server"
+          mysql -uroot -h${{ env.DB_HOST }} -p${{ env.DB_PASS }} -e "SHOW VARIABLES LIKE 'collation_server';"
+          echo "Checking sql_mode"
+          mysql -uroot -h${{ env.DB_HOST }} -p${{ env.DB_PASS }} -e "SHOW VARIABLES LIKE 'sql_mode';"
+          echo "Checking time_zone"
+          mysql -uroot -h${{ env.DB_HOST }} -p${{ env.DB_PASS }} -e "SELECT @@global.time_zone, @@session.time_zone;"
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.13.3
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip &&
+          pip install --no-cache-dir -r requirements-dev.lock
+      - name: Run test
+        run: |
+          make test_ci -C src
