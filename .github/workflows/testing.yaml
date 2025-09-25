@@ -12,6 +12,7 @@ jobs:
       DB_PASS: password
       DB_HOST: 127.0.0.1
       DB_NAME: pyconjp2025_test
+      APP_ENV: testing
     steps:
       - uses: actions/checkout@v5
       - name: Start MySQL Container
